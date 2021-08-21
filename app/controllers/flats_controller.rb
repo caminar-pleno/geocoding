@@ -4,13 +4,15 @@ class FlatsController < ApplicationController
   # GET /flats or /flats.json
   def index
     @flats = Flat.geocoded
-    @markers = @flats.geocoded.map do |flat|
+
+    @markers = @flats.map do |flat|
       {
         lat: flat.latitude,
-        lng: flat.longitude
+        lng: flat.longitude,
+        info_window: render_to_string(partial: "info_window", locals: { flat: flat }),
+        image_url: helpers.asset_url('marker.jpg')
       }
     end
-
   end
 
   # GET /flats/1 or /flats/1.json
